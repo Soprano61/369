@@ -22,7 +22,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.example.android.eggtimernotifications"
+        applicationId "com.example.android.nexi"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -34,6 +34,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    packagingOptions{
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+
     }
 
     // Enables data binding.
@@ -55,10 +61,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
     //for fcm
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-iid:19.0.1'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
+
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+
+
     implementation 'android.arch.work:work-runtime:1.0.1'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    // circleImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'com.google.android.material:material:1.0.0'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

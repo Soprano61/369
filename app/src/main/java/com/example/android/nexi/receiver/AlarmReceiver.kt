@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.android.eggtimernotifications.receiver
+package com.example.android.nexi.receiver
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.android.eggtimernotifications.R
-import com.example.android.eggtimernotifications.util.sendNotification
+import com.example.android.nexi.R
+import com.example.android.nexi.util.sendNotification
 
 class AlarmReceiver: BroadcastReceiver() {
 

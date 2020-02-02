@@ -14,13 +14,28 @@
  * limitations under the License.
  */
 
-package com.example.android.eggtimernotifications
+package com.example.android.nexi
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android.eggtimernotifications.ui.EggTimerFragment
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.android.nexi.ui.EggTimerFragment
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.net.Uri
+import android.os.Build
+
 
 class MainActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, EggTimerFragment.newInstance())
                 .commitNow()
+
         }
-    }
+        }
 }

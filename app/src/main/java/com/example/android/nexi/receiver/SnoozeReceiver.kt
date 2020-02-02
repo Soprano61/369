@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.eggtimernotifications.receiver
+package com.example.android.nexi.receiver
 
 import android.app.AlarmManager
 import android.app.NotificationManager

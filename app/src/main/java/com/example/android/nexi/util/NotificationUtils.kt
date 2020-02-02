@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.android.eggtimernotifications.util
+package com.example.android.nexi.util
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.example.android.eggtimernotifications.MainActivity
-import com.example.android.eggtimernotifications.R
-import com.example.android.eggtimernotifications.receiver.SnoozeReceiver
+import com.example.android.nexi.MainActivity
+import com.example.android.nexi.R
+import com.example.android.nexi.receiver.SnoozeReceiver
 import android.graphics.BitmapFactory
 
 // Notification ID.

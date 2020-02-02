@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.android.eggtimernotifications
+package com.example.android.nexi
 
 import android.app.NotificationManager
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.example.android.eggtimernotifications.util.sendNotification
+import com.example.android.nexi.util.sendNotification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -31,19 +31,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     // [START receive_message]
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(p0: RemoteMessage) {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: ${remoteMessage?.from}")
+        Log.d(TAG, "From: ${p0?.from}")
 
         // TODO Step 3.5 check messages for data
         // Check if message contains a data payload.
-        remoteMessage?.data?.let {
-            Log.d(TAG, "Message data payload: " + remoteMessage.data)
+        p0?.data?.let {
+            Log.d(TAG, "Message data payload: " + p0.data)
         }
 
         // TODO Step 3.6 check messages for notification and call sendNotification
         // Check if message contains a notification payload.
-        remoteMessage?.notification?.let {
+        p0?.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
             sendNotification(it.body!!)
         }
@@ -57,7 +57,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * the previous token had been compromised. Note that this is called when the InstanceID token
      * is initially generated so this is where you would retrieve the token.
      */
-    override fun onNewToken(token: String?) {
+    override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
 
         // If you want to send messages to this application instance or
@@ -75,6 +75,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendRegistrationToServer(token: String?) {
         // TODO: Implement this method to send token to your app server.
+
+
     }
 
     /**

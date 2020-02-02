@@ -14,25 +14,43 @@
  * limitations under the License.
  */
  
-package com.example.android.eggtimernotifications.ui
+package com.example.android.nexi.ui
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.CountDownTimer
 import android.os.SystemClock
+import android.widget.Toast
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
-import com.example.android.eggtimernotifications.receiver.AlarmReceiver
-import com.example.android.eggtimernotifications.R
-import com.example.android.eggtimernotifications.util.cancelNotifications
+import com.example.android.nexi.receiver.AlarmReceiver
+import com.example.android.nexi.R
+import com.example.android.nexi.util.cancelNotifications
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.OnProgressListener
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.*
 
 class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
-
+    private val PERMISSION_CODE = 1
+    private val PICK_IMAGE_CODE = 2
+    private var imageUri: Uri? = null
     private val REQUEST_CODE = 0
     private val TRIGGER_TIME = "TRIGGER_AT"
+     var storageReference: StorageReference
+    internal var databaseReference: DatabaseReference
+
+    internal var Database_Path = "All_Image_Uploads_Database"
+
 
     private val minute: Long = 60_000L
     private val second: Long = 1_000L
@@ -42,7 +60,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private val alarmManager = app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     private var prefs =
-        app.getSharedPreferences("com.example.android.eggtimernotifications", Context.MODE_PRIVATE)
+        app.getSharedPreferences("com.example.android.nexi", Context.MODE_PRIVATE)
     private val notifyIntent = Intent(app, AlarmReceiver::class.java)
 
     private val _timeSelection = MutableLiveData<Int>()
@@ -61,6 +79,9 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     private lateinit var timer: CountDownTimer
 
     init {
+        storageReference = FirebaseStorage.getInstance().reference
+        databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path)
+
         _alarmOn.value = PendingIntent.getBroadcast(
             getApplication(),
             REQUEST_CODE,
@@ -84,11 +105,6 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
     }
 
-    /**
-     * Turns on or off the alarm
-     *
-     * @param isChecked, alarm status to be set.
-     */
     fun setAlarm(isChecked: Boolean) {
         when (isChecked) {
             true -> timeSelection.value?.let { startTimer(it) }
@@ -96,18 +112,34 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /**
-     * Sets the desired interval for the alarm
-     *
-     * @param timerLengthSelection, interval timerLengthSelection value.
-     */
+
+    fun UploadImageFileToFirebaseStorage(){
+        /*if (FilePathUri != null) {
+            val storageReference2nd = storageReference.child(
+                Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri)
+            )
+            storageReference2nd.putFile(FilePathUri)
+                .addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                    val TempImageName = ImageName.getText().toString().trim({ it <= ' ' })
+                    val imageUploadInfo =
+                        ImageUploadInfo(TempImageName, taskSnapshot.downloadUrl!!.toString())
+
+                    val ImageUploadId = databaseReference.push().getKey()
+
+                    databaseReference.child(ImageUploadId).setValue(imageUploadInfo)
+                })
+                .addOnFailureListener(OnFailureListener { exception ->
+
+                })
+        }*/
+        }
+
+
     fun setTimeSelected(timerLengthSelection: Int) {
         _timeSelection.value = timerLengthSelection
     }
 
-    /**
-     * Creates a new alarm, notification and timer
-     */
+
     private fun startTimer(timerLengthSelection: Int) {
         _alarmOn.value?.let {
             if (!it) {
@@ -142,9 +174,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
         createTimer()
     }
 
-    /**
-     * Creates a new timer
-     */
+
     private fun createTimer() {
         viewModelScope.launch {
             val triggerTime = loadTime()
@@ -164,17 +194,12 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /**
-     * Cancels the alarm, notification and resets the timer
-     */
+
     private fun cancelNotification() {
         resetTimer()
         alarmManager.cancel(notifyPendingIntent)
     }
 
-    /**
-     * Resets the timer on screen and sets alarm value false
-     */
     private fun resetTimer() {
         timer.cancel()
         _elapsedTime.value = 0

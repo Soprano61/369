@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.eggtimernotifications.util
+package com.example.android.nexi.util
 
 import android.text.format.DateUtils
 import android.widget.TextView
