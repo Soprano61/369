@@ -23,9 +23,9 @@
 
     <application
             android:allowBackup="true"
-            android:icon="@drawable/egg_icon"
-            android:label="@string/app_name"
-            android:roundIcon="@drawable/egg_notification"
+            android:icon="@drawable/ic_taxi"
+            android:label="Taxi369"
+            android:roundIcon="@drawable/ic_taxi"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 

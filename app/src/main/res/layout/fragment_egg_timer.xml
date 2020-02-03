@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="gone"
             app:elapsedTime="@{eggTimerViewModel.elapsedTime}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +54,7 @@
             android:onItemSelected="@{(parent, view, selection, id)-> eggTimerViewModel.setTimeSelected(selection)}"
             android:prompt="@string/egg_prompt"
             android:selectedItemPosition="@{eggTimerViewModel.timeSelection}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/on_off_switch"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +68,7 @@
             android:layout_marginEnd="32dp"
             android:checked="@{eggTimerViewModel.isAlarmOn}"
             android:onCheckedChanged="@{(button, on)-> eggTimerViewModel.setAlarm(on)}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/minutes_spinner"
@@ -76,12 +79,26 @@
             android:layout_width="125dp"
             android:layout_height="125dp"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:scaleType="centerCrop"
             android:src="@drawable/placeholder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ciAvatar2"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectPhoto2" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/selectPhoto"
@@ -93,23 +110,49 @@
             app:layout_constraintEnd_toEndOf="@id/ciAvatar" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/selectPhoto3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@+id/ciAvatar2"
+            app:layout_constraintEnd_toEndOf="@+id/ciAvatar2" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/selectPhoto2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="68dp"
-            android:src="@drawable/ic_camera"
+            android:layout_marginTop="16dp"
+            android:src="@android:drawable/ic_menu_upload"
+            app:backgroundTint="@color/common_google_signin_btn_text_light_default"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="@+id/ciAvatar"
             app:layout_constraintStart_toStartOf="@+id/ciAvatar"
             app:layout_constraintTop_toBottomOf="@+id/ciAvatar" />
 
-        <ImageView
-            android:id="@+id/imageView"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/selectPhoto4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/arrow_up_float"
-            tools:layout_editor_absoluteX="141dp"
-            tools:layout_editor_absoluteY="409dp" />
+            android:layout_marginTop="16dp"
+            android:src="@android:drawable/ic_menu_upload"
+            app:backgroundTint="@color/common_google_signin_btn_text_light_default"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="@+id/ciAvatar2"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/ciAvatar2"
+            app:layout_constraintTop_toBottomOf="@+id/ciAvatar2" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@android:color/holo_orange_dark"
+            android:text=" Завершить и отправить данные"
+            app:layout_constraintEnd_toEndOf="@+id/selectPhoto4"
+            app:layout_constraintStart_toStartOf="@+id/selectPhoto4"
+            app:layout_constraintTop_toBottomOf="@+id/selectPhoto4" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

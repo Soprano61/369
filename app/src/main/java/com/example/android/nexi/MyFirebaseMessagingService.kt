@@ -22,8 +22,10 @@ import androidx.core.content.ContextCompat
 import com.example.android.nexi.util.sendNotification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import io.reactivex.subjects.BehaviorSubject
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
+    var operatorMessage: BehaviorSubject<String>? = null
 
     /**
      * Called when message is received.
@@ -64,6 +66,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         sendRegistrationToServer(token)
+        DataKeeper.setClientName(this,token)
+        operatorMessage?.onNext(token)
     }
     // [END on_new_token]
 

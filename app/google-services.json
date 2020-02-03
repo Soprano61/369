@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "744727304163",
+    "firebase_url": "https://project-4057851275006104726.firebaseio.com",
+    "project_id": "project-4057851275006104726",
+    "storage_bucket": "project-4057851275006104726.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744727304163:android:9db5151ef353f4c19f32d6",
+        "android_client_info": {
+          "package_name": "com.example.android.nexi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744727304163-4t5tfmkrsb4vdvtmat6m4bngj0g9k20f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.nexi",
+            "certificate_hash": "f8fe6015425082b1749095856ad8291b9cece558"
+          }
+        },
+        {
+          "client_id": "744727304163-n34ppfh6mgvesib0tm2kimtump7eg52v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCGkcNKGJ-mBJeJwvuJoOb_nH9EHVjFJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744727304163-n34ppfh6mgvesib0tm2kimtump7eg52v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

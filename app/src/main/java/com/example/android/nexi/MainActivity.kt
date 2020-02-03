@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Build
+import com.example.android.nexi.ui.StartFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EggTimerFragment.newInstance())
+                .replace(R.id.container, StartFragment.newInstance())
                 .commitNow()
 
         }

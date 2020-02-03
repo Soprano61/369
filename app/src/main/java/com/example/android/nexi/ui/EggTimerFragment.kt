@@ -20,13 +20,9 @@ import android.Manifest
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -35,14 +31,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.android.nexi.DataKeeper
+import com.example.android.nexi.MyFirebaseMessagingService
 import com.example.android.nexi.R
 import com.example.android.nexi.databinding.FragmentEggTimerBinding
 import com.google.android.gms.tasks.OnFailureListener
@@ -51,46 +47,26 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileInputStream
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 
 class EggTimerFragment : Fragment() {
-
-
-    // Creating URI.
-    var FilePathUri: Uri? = null
-    internal var Storage_Path = "All_image_uploads/"
+    private val supportChatManager: MyFirebaseMessagingService? = null
     internal var Database_Path = "All_Image_Uploads_Database"
     var mStorageRef: StorageReference? = null
-
-
-
-
     val REQUEST_RUNTIME_PERMISSION = 1
-
-
-    // Creating StorageReference and DatabaseReference object.
     var storageReference: StorageReference? = null
     var databaseReference: DatabaseReference? = null
-
-    // Image request code for onActivityResult() .
-    var Image_Request_Code = 7
-    val PERMISSION_CODE = 1
     private val PICK_IMAGE_CODE = 2
+    private var Test = 0
     private var imageUri: Uri? = null
     private val TOPIC = "breakfast"
 
-    // Folder path for Firebase Storage.
-    val storage_Path = "All_image_uploads/"
-
-    // Root Database Name for Firebase Database.
-    val database_Path = "All_Image_Uploads_Database"
     private lateinit var binding: FragmentEggTimerBinding
+    val permission = Manifest.permission.CAMERA
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,13 +74,7 @@ class EggTimerFragment : Fragment() {
     ): View? {
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path)
         storageReference = FirebaseStorage.getInstance().reference
-
-
         mStorageRef = FirebaseStorage.getInstance().getReference()
-
-
-
-
 
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_egg_timer, container, false
@@ -128,6 +98,27 @@ class EggTimerFragment : Fragment() {
         subscribeTopic()
 
         binding.selectPhoto.setOnClickListener {
+            Test = 0
+          /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkPermissions()
+            } else {
+                pickFromGallery()
+            }*/
+            if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(permission),
+                    REQUEST_RUNTIME_PERMISSION)
+                            takingPhoto()
+            }
+            else {
+                takingPhoto()
+            }
+        }
+
+        binding.selectPhoto3.setOnClickListener {
+            Test = 1
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermissions()
             } else {
@@ -135,35 +126,78 @@ class EggTimerFragment : Fragment() {
             }
         }
 
-        binding.imageView
+        binding.button2.setOnClickListener {
+           activity?.finish()
+        }
+
+        supportChatManager?.operatorMessage =  BehaviorSubject.create()
+
+        supportChatManager?.operatorMessage?.let {
+            it.observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it
+                }, {
+                    it
+                })
+        }
 
         binding.selectPhoto2.setOnClickListener {
           //  UploadImageFileToFirebaseStorage()
             checkPremission()
 
         }
+        binding.selectPhoto4.setOnClickListener {
+            //  UploadImageFileToFirebaseStorage()
+            checkPremission()
+
+        }
+
+
 
 
         return binding.root
 
     }
 
+     fun takingPhoto(){
+
+                val intent =  Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent,REQUEST_RUNTIME_PERMISSION)
+    }
+
+
     fun upload() {
        // val file = Uri.fromFile(File("path/to/images/profile.jpg"))
-        //todo profile - вместо этого ключ для нотификации и ФИО
-        val riversRef = mStorageRef?.child("images/profile.jpg")
+        if (imageUri != null) {
+            //todo profile - вместо этого ключ для нотификации и ФИО
 
-        riversRef?.putFile(imageUri!!)
-            ?.addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                // Get a URL to the uploaded content
-               // val downloadUrl = taskSnapshot.getDownloadUrl()
-                taskSnapshot
-            })
-            ?.addOnFailureListener(OnFailureListener {
-                // Handle unsuccessful uploads
-                it
-                // ...
-            })
+            val tokken = DataKeeper.getClientName(context!!)
+            val riversRef = mStorageRef?.child(
+                "drivers/_____" + tokken
+            )
+
+            riversRef?.putFile(imageUri!!)
+                ?.addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                    // Get a URL to the uploaded content
+                    // val downloadUrl = taskSnapshot.getDownloadUrl()
+                    taskSnapshot
+
+                    Toast.makeText(context, "Фото успешно загружено!", Toast.LENGTH_SHORT).show()
+
+                })
+                ?.addOnFailureListener(OnFailureListener {
+                    // Handle unsuccessful uploads
+                    Toast.makeText(
+                        context,
+                        "Ошибка загрузки попроуйте позже или нет интернета!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // ...
+                })
+        }
+        else {
+            Toast.makeText(context, "Сделайте снимок!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun checkPremission() {
@@ -195,43 +229,6 @@ class EggTimerFragment : Fragment() {
         }
     }
 
-    fun neW()
-    {
-        // Create a storage reference from our app
-        val storageRef = storageReference
-
-// Create a reference to "mountains.jpg"
-        val mountainsRef = storageRef!!.child("mountains.jpg")
-
-// Create a reference to 'images/mountains.jpg'
-        val mountainImagesRef = storageRef!!.child("images/mountains.jpg")
-        mountainsRef.name == mountainImagesRef.name // true
-        mountainsRef.path == mountainImagesRef.path // false
-
-        binding.imageView.buildDrawingCache()
-        val bitmap = (binding.imageView.drawable as BitmapDrawable).bitmap
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        var uploadTask = mountainsRef.putBytes(data)
-        uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
-        }.addOnSuccessListener {
-            val stream = FileInputStream(File("path/to/images/rivers.jpg"))
-
-            uploadTask = mountainsRef.putStream(stream)
-            uploadTask.addOnFailureListener {
-                // Handle unsuccessful uploads
-                it
-            }.addOnSuccessListener {
-                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                // ...
-                it
-            }
-        }
-    }
-
     override fun onRequestPermissionsResult(requestCode:Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             REQUEST_RUNTIME_PERMISSION -> {
@@ -243,14 +240,11 @@ class EggTimerFragment : Fragment() {
                     SomeTask()
                 } else {
                     // you dont have permission show toast
-
                 }
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
-
-
 
     fun SomeTask() {
         val firebaseStorage = FirebaseStorage.getInstance()
@@ -261,10 +255,8 @@ class EggTimerFragment : Fragment() {
             ?.addOnSuccessListener { taskSnapshot ->
                 // Getting image name from EditText and store into string variable.
                 val TempImageName = "TEST"
-
                 val imageUploadInfo =
                     ImageUploadInfo(TempImageName, taskSnapshot.uploadSessionUri.toString())
-
                 // Getting image upload ID.
                 val ImageUploadId = databaseReference?.push()?.key
 
@@ -292,13 +284,8 @@ class EggTimerFragment : Fragment() {
     private fun pickFromGallery() {
         val getIntent = Intent(Intent.ACTION_GET_CONTENT)
         getIntent.type = "image/*"
-
-        val pickIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
+        val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickIntent.type = "image/*"
-
         val chooserIntent = Intent.createChooser(getIntent, getString(R.string.gcm_defaultSenderId))
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
         startActivityForResult(chooserIntent, PICK_IMAGE_CODE)
@@ -310,8 +297,15 @@ class EggTimerFragment : Fragment() {
             if (data != null) {
                 imageUri = data.data
                 imageUri = imageUri
-                Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
-                    .into(binding.ciAvatar)
+                if (Test == 0)
+                {
+                    Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
+                        .into(binding.ciAvatar)
+                }
+                else {
+                    Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
+                        .into(binding.ciAvatar2)
+                }
             }
         }
     }
@@ -459,8 +453,6 @@ it
     companion object {
         fun newInstance() = EggTimerFragment()
     }
-
-
 
 }
 

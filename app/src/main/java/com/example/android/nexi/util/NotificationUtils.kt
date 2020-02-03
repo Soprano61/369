@@ -55,7 +55,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 // TODO: Step 2.0 add style
     val eggImage = BitmapFactory.decodeResource(
         applicationContext.resources,
-        R.drawable.cooked_egg
+        R.drawable.ic_taxi
     )
     val bigPicStyle = NotificationCompat.BigPictureStyle()
         .bigPicture(eggImage)
@@ -75,7 +75,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         applicationContext.getString(R.string.egg_notification_channel_id)
     )
         // TODO: Step 1.3 set title, text and icon to builder
-        .setSmallIcon(R.drawable.cooked_egg)
+        .setSmallIcon(R.drawable.ic_taxi)
         .setContentTitle(applicationContext.getString(R.string.notification_title))
         .setContentText(messageBody)
         // TODO: Step 1.13 set content intent
@@ -85,7 +85,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setLargeIcon(eggImage)
         // TODO: Step 2.3 add snooze action
         .addAction(
-           R.drawable.egg_icon,
+           R.drawable.ic_taxi,
             applicationContext.getString(R.string.snooze),
             snoozePendingIntent
         )
@@ -97,6 +97,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     // Deliver the notification
     notify(NOTIFICATION_ID, builder.build())
 }
+
 
 // TODO: Step 1.14 Cancel all notifications
 /**

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2019 Google Inc.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +14,11 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_name">Egg Timer</string>
+    <string name="app_name">369!</string>
     <string name="egg_prompt">How do you like your egg?</string>
     <string name="timer_on">Start</string>
     <string name="timer_off">Stop</string>
-    <string name="notification_title">Egg Timer</string>
+    <string name="notification_title">Скоро мы с вами свяжемся!</string>
     <string name="notification_text">Your egg is ready!!</string>
 
     <string name="fcm_message">FCM Message</string>
@@ -33,4 +32,7 @@
     <string name="timer_running">Egg timer is running...</string>
     <string name="breakfast_notification_channel_description">Breakfast reminder</string>
     <string name="snooze">Snooze</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -27,6 +27,7 @@ import android.widget.Toast
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import com.example.android.nexi.MyFirebaseMessagingService
 import com.example.android.nexi.receiver.AlarmReceiver
 import com.example.android.nexi.R
 import com.example.android.nexi.util.cancelNotifications
@@ -38,19 +39,17 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.*
 
 class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
-    private val PERMISSION_CODE = 1
-    private val PICK_IMAGE_CODE = 2
-    private var imageUri: Uri? = null
     private val REQUEST_CODE = 0
     private val TRIGGER_TIME = "TRIGGER_AT"
-     var storageReference: StorageReference
+    var storageReference: StorageReference
     internal var databaseReference: DatabaseReference
 
     internal var Database_Path = "All_Image_Uploads_Database"
-
 
     private val minute: Long = 60_000L
     private val second: Long = 1_000L
@@ -111,29 +110,6 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
             false -> cancelNotification()
         }
     }
-
-
-    fun UploadImageFileToFirebaseStorage(){
-        /*if (FilePathUri != null) {
-            val storageReference2nd = storageReference.child(
-                Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri)
-            )
-            storageReference2nd.putFile(FilePathUri)
-                .addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                    val TempImageName = ImageName.getText().toString().trim({ it <= ' ' })
-                    val imageUploadInfo =
-                        ImageUploadInfo(TempImageName, taskSnapshot.downloadUrl!!.toString())
-
-                    val ImageUploadId = databaseReference.push().getKey()
-
-                    databaseReference.child(ImageUploadId).setValue(imageUploadInfo)
-                })
-                .addOnFailureListener(OnFailureListener { exception ->
-
-                })
-        }*/
-        }
-
 
     fun setTimeSelected(timerLengthSelection: Int) {
         _timeSelection.value = timerLengthSelection
