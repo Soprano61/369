@@ -22,7 +22,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
+import android.os.Environment
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
@@ -42,6 +44,9 @@ import com.google.firebase.storage.UploadTask
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.*
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     private val REQUEST_CODE = 0

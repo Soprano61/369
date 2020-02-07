@@ -22,7 +22,6 @@ xmlns:tools="http://schemas.android.com/tools">
         android:layout_height="250dp"
         android:scaleType="fitXY"
         android:src="@drawable/scale_1200"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
