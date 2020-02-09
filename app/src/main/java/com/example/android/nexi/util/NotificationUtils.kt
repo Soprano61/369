@@ -85,7 +85,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setLargeIcon(eggImage)
         // TODO: Step 2.3 add snooze action
         .addAction(
-           R.drawable.egg_icon,
+           R.drawable.ic_id_card,
             applicationContext.getString(R.string.snooze),
             snoozePendingIntent
         )

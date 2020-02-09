@@ -55,8 +55,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.android.synthetic.main.fragment_egg_timer.*
 import java.io.File
 import java.io.IOException
 
@@ -118,16 +117,10 @@ class EggTimerFragment : Fragment() {
             } else {
                 pickFromGallery()
             }*/
-            if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-
-                ActivityCompat.requestPermissions(
-                    activity!!,
-                    arrayOf(permission),
-                    REQUEST_RUNTIME_PERMISSION)
-                checkPremission()// takingPhoto()
-            }
-            else {
-                checkPremission()//   takingPhoto()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkPremission()//    checkPermissions()
+            } else {
+                checkPremission()//   pickFromGallery()
             }
         }
 
@@ -144,7 +137,7 @@ class EggTimerFragment : Fragment() {
            activity?.finish()
         }
 
-        supportChatManager?.operatorMessage =  BehaviorSubject.create()
+    /*    supportChatManager?.operatorMessage =  BehaviorSubject.create()
 
         supportChatManager?.operatorMessage?.let {
             it.observeOn(AndroidSchedulers.mainThread())
@@ -153,7 +146,7 @@ class EggTimerFragment : Fragment() {
                 }, {
                     it
                 })
-        }
+        }*/
 
         binding.selectPhoto2.setOnClickListener {
            // UploadImageFileToFirebaseStorage()
@@ -165,23 +158,15 @@ class EggTimerFragment : Fragment() {
             //  UploadImageFileToFirebaseStorage()
            // checkPremission()
             upload()
-
-
         }
-
-
-
-
         return binding.root
-
     }
-
 
     private fun saveFullImage() {
         val intent =  Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val file =  File(
             Environment.getExternalStorageDirectory(),
-                "test2.jpg")
+                "test.jpg")
         imageUri = Uri.fromFile(file)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
         startActivityForResult(intent, REQUEST_RUNTIME_PERMISSION)
@@ -193,17 +178,16 @@ class EggTimerFragment : Fragment() {
             //todo profile - вместо этого ключ для нотификации и ФИО
         var string =""
             if(Test==0){
-                string = "права"
+                string = "___права"
             }
             else {
-                string = "lheujt"
+                string = "____другой документ"
 
             }
-
 
             val tokken = DataKeeper.getClientName(context!!)
             val riversRef = mStorageRef?.child(
-                "drivers/_____" + tokken +string
+                "drivers/____" + tokken +string
             )
 
             riversRef?.putFile(imageUri!!)
@@ -224,6 +208,9 @@ class EggTimerFragment : Fragment() {
                     ).show()
                     // ...
                 })
+                ?.addOnProgressListener {taskSnapshot->
+                    val progress = (100.0 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
+                }
         }
         else {
             Toast.makeText(context, "Сделайте снимок!", Toast.LENGTH_SHORT).show()
@@ -231,9 +218,10 @@ class EggTimerFragment : Fragment() {
     }
 
     fun checkPremission() {
-        saveFullImage()
+      //  saveFullImage()
 
-        /*  //select which permission you want
+          //select whi
+
           val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
           if (ContextCompat.checkSelfPermission(
                   context!!,
@@ -244,7 +232,9 @@ class EggTimerFragment : Fragment() {
                       activity!!,
                       permission
                   )
+
               ) {
+
               } else {
                   ActivityCompat.requestPermissions(
                       activity!!,
@@ -252,6 +242,7 @@ class EggTimerFragment : Fragment() {
                       REQUEST_RUNTIME_PERMISSION
                   )
               }
+              checkPremission()
           } else {
               // you have permission go ahead launch service
              // SomeTask()
@@ -259,8 +250,7 @@ class EggTimerFragment : Fragment() {
             //  neW()
               //upload()
               saveFullImage()
-
-          }*/
+          }
     }
 
     override fun onRequestPermissionsResult(requestCode:Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -282,7 +272,7 @@ class EggTimerFragment : Fragment() {
 
     fun SomeTask() {
         val firebaseStorage = FirebaseStorage.getInstance()
-        storageReference = firebaseStorage.getReferenceFromUrl("gs://project-4057851275006104726.appspot.com")
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://project-1913949624994167419.appspot.com")
         val storageReference2nd = storageReference!!.child("All_image_uploads/"/*Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(imageUri!!)*/)
 
         storageReference2nd?.putFile(imageUri!!)
@@ -325,12 +315,6 @@ class EggTimerFragment : Fragment() {
         startActivityForResult(chooserIntent, PICK_IMAGE_CODE)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)  {
-               val extra = data?.getExtras()
-            val bitmap = extra?.get("data")
-
-
-            binding.ciAvatar.setImageBitmap(bitmap as Bitmap?)
-
 
         if (requestCode == REQUEST_RUNTIME_PERMISSION && resultCode == RESULT_OK) {
             // Проверяем, содержит ли результат маленькую картинку
@@ -341,10 +325,24 @@ class EggTimerFragment : Fragment() {
                // imageUri = data.data
                 if (Test == 0)
                 {
+                    ciAvatar.setImageURI(imageUri)
+
                     Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
                         .into(binding.ciAvatar)
+/*
+                    Picasso.with(context)
+                        .load(imageUri)
+                        .placeholder(R.drawable.placeholder)
+                        //.error(R.drawable.user_placeholder_error)
+                        .into(binding.ciAvatar)*/
                 }
                 else {
+/*
+                    Picasso.with(context)
+                        .load(imageUri)
+                        .placeholder(R.drawable.placeholder)
+                        //.error(R.drawable.user_placeholder_error)
+                        .into(binding.ciAvatar)*/
                     Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
                         .into(binding.ciAvatar2)
                 }
