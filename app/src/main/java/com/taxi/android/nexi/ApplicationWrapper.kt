@@ -1,4 +1,4 @@
-package com.example.android.nexi
+package com.taxi.android.nexi
 
 import android.app.Application
 import android.content.Context

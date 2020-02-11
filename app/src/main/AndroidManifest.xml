@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.android.nexi">
+          package="com.taxi.android.nexi">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -26,12 +26,12 @@
             android:allowBackup="true"
             android:icon="@drawable/ic_id_card"
             android:label="@string/app_name"
-            android:roundIcon="@drawable/egg_notification"
+            android:roundIcon="@drawable/cooked_egg"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:name="androidx.multidex.MultiDexApplication" >
 
-        <activity android:name="com.example.android.nexi.MainActivity">
+        <activity android:name="com.taxi.android.nexi.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -40,19 +40,19 @@
         </activity>
 
         <receiver
-                android:name="com.example.android.nexi.receiver.AlarmReceiver"
+                android:name="com.taxi.android.nexi.receiver.AlarmReceiver"
                 android:enabled="true"
                 android:exported="false">
         </receiver>
         <receiver
-                android:name="com.example.android.nexi.receiver.SnoozeReceiver"
+                android:name="com.taxi.android.nexi.receiver.SnoozeReceiver"
                 android:enabled="true"
                 android:exported="false">
         </receiver>
 
         <!-- TODO: Step 3.0 uncomment to start the service  -->
         <service
-                android:name="com.example.android.nexi.MyFirebaseMessagingService"
+                android:name="com.taxi.android.nexi.MyFirebaseMessagingService"
                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

@@ -14,39 +14,24 @@
  * limitations under the License.
  */
  
-package com.example.android.nexi.ui
+package com.taxi.android.nexi.ui
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.CountDownTimer
-import android.os.Environment
 import android.os.SystemClock
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
-import com.example.android.nexi.MyFirebaseMessagingService
-import com.example.android.nexi.receiver.AlarmReceiver
-import com.example.android.nexi.R
-import com.example.android.nexi.util.cancelNotifications
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import com.taxi.android.nexi.receiver.AlarmReceiver
+import com.taxi.android.nexi.R
+import com.taxi.android.nexi.util.cancelNotifications
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.*
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     private val REQUEST_CODE = 0
@@ -64,7 +49,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private val alarmManager = app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     private var prefs =
-        app.getSharedPreferences("com.example.android.nexi", Context.MODE_PRIVATE)
+        app.getSharedPreferences("com.taxi.android.nexi", Context.MODE_PRIVATE)
     private val notifyIntent = Intent(app, AlarmReceiver::class.java)
 
     private val _timeSelection = MutableLiveData<Int>()

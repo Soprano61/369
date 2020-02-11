@@ -14,45 +14,28 @@
  * limitations under the License.
  */
 
-package com.example.android.nexi.receiver
+package com.taxi.android.nexi.receiver
 
-import android.app.AlarmManager
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
-import android.text.format.DateUtils
-import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
+import com.taxi.android.nexi.R
+import com.taxi.android.nexi.util.sendNotification
 
-class SnoozeReceiver: BroadcastReceiver() {
-    private val REQUEST_CODE = 0
+class AlarmReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val triggerTime = SystemClock.elapsedRealtime() + DateUtils.MINUTE_IN_MILLIS
+        // TODO: Step 1.10 [Optional] remove toast
+        //Toast.makeText(context, context.getText(R.string.eggs_ready), Toast.LENGTH_SHORT).show()
 
-        val notifyIntent = Intent(context, AlarmReceiver::class.java)
-        val notifyPendingIntent = PendingIntent.getBroadcast(
-            context,
-            REQUEST_CODE,
-            notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        AlarmManagerCompat.setExactAndAllowWhileIdle(
-            alarmManager,
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            triggerTime,
-            notifyPendingIntent
-        )
-
+        // TODO: Step 1.9 add call to sendNotification
         val notificationManager = ContextCompat.getSystemService(
             context,
             NotificationManager::class.java
         ) as NotificationManager
-        notificationManager.cancelAll()
+        notificationManager.sendNotification(context.getText(R.string.eggs_ready).toString(), context)
     }
 
 }

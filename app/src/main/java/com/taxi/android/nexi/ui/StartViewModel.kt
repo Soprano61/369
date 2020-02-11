@@ -1,4 +1,4 @@
-package com.example.android.nexi.ui
+package com.taxi.android.nexi.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

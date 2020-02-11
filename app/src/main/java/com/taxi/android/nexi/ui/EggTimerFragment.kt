@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.android.nexi.ui
+package com.taxi.android.nexi.ui
 
 import android.Manifest
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -38,14 +36,13 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.android.nexi.DataKeeper
-import com.example.android.nexi.MyFirebaseMessagingService
-import com.example.android.nexi.R
-import com.example.android.nexi.databinding.FragmentEggTimerBinding
+import com.taxi.android.nexi.DataKeeper
+import com.taxi.android.nexi.MyFirebaseMessagingService
+import com.taxi.android.nexi.R
+import com.taxi.android.nexi.databinding.FragmentEggTimerBinding
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DatabaseReference
@@ -54,10 +51,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.pawegio.kandroid.visible
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_egg_timer.*
 import java.io.File
-import java.io.IOException
 
 class EggTimerFragment : Fragment() {
     private val supportChatManager: MyFirebaseMessagingService? = null
@@ -110,13 +107,8 @@ class EggTimerFragment : Fragment() {
         // TODO: Step 3.4 call subscribe topics on start
         subscribeTopic()
 
-        binding.selectPhoto.setOnClickListener {
+        binding.passwordSelect.setOnClickListener {
             Test = 0
-          /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                checkPermissions()
-            } else {
-                pickFromGallery()
-            }*/
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPremission()//    checkPermissions()
             } else {
@@ -124,7 +116,7 @@ class EggTimerFragment : Fragment() {
             }
         }
 
-        binding.selectPhoto3.setOnClickListener {
+        binding.adressCelect.setOnClickListener {
             Test = 1
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPremission()//    checkPermissions()
@@ -132,31 +124,48 @@ class EggTimerFragment : Fragment() {
                 checkPremission()//   pickFromGallery()
             }
         }
+        binding.VUFaceSelect.setOnClickListener {
+            Test = 2
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkPremission()//    checkPermissions()
+            } else {
+                checkPremission()//   pickFromGallery()
+            }
+        }
+
+        binding.VUBackSelect.setOnClickListener {
+            Test = 3
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkPremission()//    checkPermissions()
+            } else {
+                checkPremission()//   pickFromGallery()
+            }
+        }
+
+
+
+
+
 
         binding.button2.setOnClickListener {
            activity?.finish()
         }
 
-    /*    supportChatManager?.operatorMessage =  BehaviorSubject.create()
 
-        supportChatManager?.operatorMessage?.let {
-            it.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    it
-                }, {
-                    it
-                })
-        }*/
-
-        binding.selectPhoto2.setOnClickListener {
-           // UploadImageFileToFirebaseStorage()
-          //  checkPremission()
+        binding.passwordDownload.setOnClickListener {
             upload()
 
         }
-        binding.selectPhoto4.setOnClickListener {
-            //  UploadImageFileToFirebaseStorage()
-           // checkPremission()
+        binding.adressDownload.setOnClickListener {
+            upload()
+        }
+
+
+        binding.VUFaseDownload.setOnClickListener {
+            upload()
+
+        }
+        binding.VUBackDownload.setOnClickListener {
             upload()
         }
         return binding.root
@@ -177,19 +186,27 @@ class EggTimerFragment : Fragment() {
         if (imageUri != null) {
             //todo profile - вместо этого ключ для нотификации и ФИО
         var string =""
-            if(Test==0){
-                string = "___права"
-            }
-            else {
-                string = "____другой документ"
+            when (Test){
+                0->{
+                    string = "___Фото паспорта"
 
+                } 1->{
+                string = "___Фото прописки"
+
+            } 2->{
+                string = "___Фото ВУ(лицевая сторона)"
+
+            } 3->{
+                string = "___Фото ВУ(обратная сторона)"
+
+            }
             }
 
             val tokken = DataKeeper.getClientName(context!!)
             val riversRef = mStorageRef?.child(
                 "drivers/____" + tokken +string
             )
-
+            binding.progressBar.visible = true
             riversRef?.putFile(imageUri!!)
                 ?.addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
                     // Get a URL to the uploaded content
@@ -197,6 +214,9 @@ class EggTimerFragment : Fragment() {
                     taskSnapshot
 
                     Toast.makeText(context, "Фото успешно загружено!", Toast.LENGTH_SHORT).show()
+                    val progress = (100.0 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
+
+                    binding.progressBar.visible = false
 
                 })
                 ?.addOnFailureListener(OnFailureListener {
@@ -206,7 +226,7 @@ class EggTimerFragment : Fragment() {
                         "Ошибка загрузки попроуйте позже или нет интернета!",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // ...
+                    binding.progressBar.visible = false
                 })
                 ?.addOnProgressListener {taskSnapshot->
                     val progress = (100.0 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
@@ -323,28 +343,25 @@ class EggTimerFragment : Fragment() {
             imageUri
             if (imageUri != null) {
                // imageUri = data.data
-                if (Test == 0)
-                {
-                    ciAvatar.setImageURI(imageUri)
+                when (Test){
+                    0-> {
+                        passwordAv.setImageURI(imageUri)
 
-                    Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
-                        .into(binding.ciAvatar)
-/*
-                    Picasso.with(context)
-                        .load(imageUri)
-                        .placeholder(R.drawable.placeholder)
-                        //.error(R.drawable.user_placeholder_error)
-                        .into(binding.ciAvatar)*/
-                }
-                else {
-/*
-                    Picasso.with(context)
-                        .load(imageUri)
-                        .placeholder(R.drawable.placeholder)
-                        //.error(R.drawable.user_placeholder_error)
-                        .into(binding.ciAvatar)*/
-                    Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
-                        .into(binding.ciAvatar2)
+                        Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
+                            .into(binding.passwordAv)
+                    }
+                    1->{
+                        Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
+                            .into(binding.adressAv)
+                    }
+                    2->{
+                        Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
+                            .into(binding.VUFaseAV)
+                    }
+                    3->{
+                        Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
+                            .into(binding.VUBackAv)
+                    }
                 }
             }
             else {

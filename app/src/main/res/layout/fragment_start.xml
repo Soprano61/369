@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
     <variable
         name="eggTimerViewModel"
-        type="com.example.android.nexi.ui.StartViewModel" />
+        type="com.taxi.android.nexi.ui.StartViewModel" />
 </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

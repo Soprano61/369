@@ -1,4 +1,4 @@
-package com.example.android.nexi
+package com.taxi.android.nexi
 
 import android.annotation.TargetApi
 import android.content.Context
