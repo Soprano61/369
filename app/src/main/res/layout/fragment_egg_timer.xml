@@ -23,7 +23,7 @@
 
         <variable
             name="eggTimerViewModel"
-            type="com.taxi.android.nexi.ui.EggTimerViewModel" />
+            type="com.taxi.android.city.ui.EggTimerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -227,6 +227,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Фото паспорта"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/passwordDownload"
             app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toStartOf="@+id/passwordDownload"
@@ -241,7 +242,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Фото ВУ(лицевая сторона)"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/VUFaseDownload"
             app:layout_constraintStart_toStartOf="@+id/VUFaseDownload"
             app:layout_constraintTop_toBottomOf="@+id/VUFaseDownload" />
@@ -254,6 +255,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Фото ВУ(обратная сторона)"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/VUBackDownload"
             app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="@+id/VUBackDownload"
@@ -267,6 +269,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Фото прописки"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/adressDownload"
             app:layout_constraintStart_toStartOf="@+id/adressDownload"
             app:layout_constraintTop_toBottomOf="@+id/adressDownload" />

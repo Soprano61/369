@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package com.taxi.android.nexi
+package com.taxi.android.city.util
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.taxi.android.nexi.ui.StartFragment
+import android.text.format.DateUtils
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 
-
-class MainActivity : AppCompatActivity() {
-
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, StartFragment.newInstance())
-                .commitNow()
-
-        }
-        }
+/**
+ * Converts milliseconds to formatted mm:ss
+ *
+ * @param value, time in milliseconds.
+ */
+@BindingAdapter("elapsedTime")
+fun TextView.setElapsedTime(value: Long) {
+    val seconds = value / 1000
+    text = if (seconds < 60) seconds.toString() else DateUtils.formatElapsedTime(seconds)
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.taxi.android.nexi.ui
+package com.taxi.android.city.ui
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -39,10 +39,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.taxi.android.nexi.DataKeeper
-import com.taxi.android.nexi.MyFirebaseMessagingService
-import com.taxi.android.nexi.R
-import com.taxi.android.nexi.databinding.FragmentEggTimerBinding
+import com.taxi.android.city.DataKeeper
+import com.taxi.android.city.MyFirebaseMessagingService
+import com.taxi.android.city.R
+import com.taxi.android.city.databinding.FragmentEggTimerBinding
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DatabaseReference
@@ -94,17 +94,14 @@ class EggTimerFragment : Fragment() {
         StrictMode.setVmPolicy(builder.build())
 
 
-        // TODO: Step 1.7 call create channel
         createChannel(
             getString(R.string.egg_notification_channel_id),
             getString(R.string.egg_notification_channel_name)
         )
-        // TODO: Step 3.1 create a new channel for FCM
         createChannel(
             getString(R.string.breakfast_notification_channel_id),
             getString(R.string.breakfast_notification_channel_name)
         )
-        // TODO: Step 3.4 call subscribe topics on start
         subscribeTopic()
 
         binding.passwordSelect.setOnClickListener {
@@ -148,24 +145,28 @@ class EggTimerFragment : Fragment() {
 
 
         binding.button2.setOnClickListener {
-           activity?.finish()
+            activity?.finish()
         }
 
 
         binding.passwordDownload.setOnClickListener {
+            Test = 0
             upload()
 
         }
         binding.adressDownload.setOnClickListener {
+            Test = 1
             upload()
         }
 
 
         binding.VUFaseDownload.setOnClickListener {
+            Test = 2
             upload()
 
         }
         binding.VUBackDownload.setOnClickListener {
+            Test = 3
             upload()
         }
         return binding.root
@@ -311,14 +312,8 @@ class EggTimerFragment : Fragment() {
             ?.addOnFailureListener { exception ->
                 exception
             }
-
-
-
         storageReference!!.getBytes(java.lang.Long.MAX_VALUE).addOnSuccessListener { bytes ->
             var bytes = bytes
-
-
-
         }.addOnFailureListener { exception ->
             // Handle any errors
             exception
@@ -334,6 +329,7 @@ class EggTimerFragment : Fragment() {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
         startActivityForResult(chooserIntent, PICK_IMAGE_CODE)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)  {
 
         if (requestCode == REQUEST_RUNTIME_PERMISSION && resultCode == RESULT_OK) {
@@ -346,7 +342,6 @@ class EggTimerFragment : Fragment() {
                 when (Test){
                     0-> {
                         passwordAv.setImageURI(imageUri)
-
                         Picasso.get().load(imageUri).placeholder(R.drawable.placeholder)
                             .into(binding.passwordAv)
                     }
@@ -366,119 +361,19 @@ class EggTimerFragment : Fragment() {
             }
             else {
                 Toast.makeText(context, "Ошибка загрузки!", Toast.LENGTH_SHORT).show()
-
             }
-
         }
     }
 
 
-    fun GetFileExtension(uri: Uri): String? {
-
-        val contentResolver = activity?.getContentResolver()
-
-        val mimeTypeMap = MimeTypeMap.getSingleton()
-
-        // Returning the file Extension.
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver?.getType(uri))
-
-    }
-
-
-    fun UploadImageFileToFirebaseStorage() {
-        val storageReference2nd = storageReference!!.child("All_image_uploads/"/*Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(imageUri!!)*/)
-
-
-
-        storageReference2nd
-        // Adding addOnSuccessListener to second StorageReference.
-        storageReference2nd?.putFile(imageUri!!)
-            ?.addOnSuccessListener { taskSnapshot ->
-                // Getting image name from EditText and store into string variable.
-                val TempImageName = "TEST"
-
-                val imageUploadInfo =
-                    ImageUploadInfo(TempImageName, taskSnapshot.uploadSessionUri.toString())
-
-                // Getting image upload ID.
-                val ImageUploadId = databaseReference?.push()?.key
-
-                // Adding image upload id s child element into databaseReference.
-                databaseReference?.child(ImageUploadId!!)?.setValue(imageUploadInfo)
-            }
-            // If something goes wrong .
-            ?.addOnFailureListener { exception ->
-                exception
-            }
-
-            // On progress change upload time.
-            ?.addOnProgressListener {
-it
-            }
-
-
-      /*  val TempImageName = "test"
-        val imageUploadInfo =
-            ImageUploadInfo(TempImageName, imageUri.toString())
-
-        val ImageUploadId = databaseReference?.push()?.getKey()
-
-        if (ImageUploadId != null) {
-            databaseReference?.child(ImageUploadId)?.setValue(imageUploadInfo)
-        }*/
-    }
-       /* if (FilePathUri != null) {
-            val storageReference2nd = storageReference?.child(
-                Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri!!)
-            )
-            storageReference2nd?.putFile(FilePathUri!!)
-                ?.addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                    val TempImageName = "test"
-                    val imageUploadInfo =
-                        ImageUploadInfo(TempImageName, imageUri.toString())
-
-                    val ImageUploadId = databaseReference?.push()?.getKey()
-
-                    if (ImageUploadId != null) {
-                        databaseReference?.child(ImageUploadId)?.setValue(imageUploadInfo)
-                    }
-                })
-                ?.addOnFailureListener(OnFailureListener { exception ->
-
-                })
-    }*/
-    private fun checkPermissions() {
-
-      /*  if (context?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            } != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                PERMISSION_CODE
-            )
-
-        } else {*/
-            pickFromGallery()
-      //  }
-    }
-
     private fun createChannel(channelId: String, channelName: String) {
-        // TODO: Step 1.6 START create a channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
             val notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
-                // TODO: Step 2.4 change importance
                 NotificationManager.IMPORTANCE_HIGH
             )
-                // TODO: Step 2.6 disable badges for this channel
                 .apply {
                     setShowBadge(false)
                 }
@@ -495,10 +390,8 @@ it
             notificationManager.createNotificationChannel(notificationChannel)
 
         }
-        // TODO: Step 1.6 END create channel
     }
 
-    // TODO: Step 3.3 subscribe to breakfast topic
     private fun subscribeTopic() {
         // [START subscribe_topic]
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
@@ -507,7 +400,7 @@ it
                 if (!task.isSuccessful) {
                     message = getString(R.string.message_subscribe_failed)
                 }
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+             //   Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         // [END subscribe_topics]
     }

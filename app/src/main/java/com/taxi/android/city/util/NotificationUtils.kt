@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.taxi.android.nexi.util
+package com.taxi.android.city.util
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.taxi.android.nexi.MainActivity
-import com.taxi.android.nexi.R
-import com.taxi.android.nexi.receiver.SnoozeReceiver
+import com.taxi.android.city.MainActivity
+import com.taxi.android.city.R
+import com.taxi.android.city.receiver.SnoozeReceiver
 import android.graphics.BitmapFactory
 
 // Notification ID.

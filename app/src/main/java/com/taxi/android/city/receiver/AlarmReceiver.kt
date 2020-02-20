@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.taxi.android.nexi.receiver
+package com.taxi.android.city.receiver
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
-import com.taxi.android.nexi.R
-import com.taxi.android.nexi.util.sendNotification
+import com.taxi.android.city.R
+import com.taxi.android.city.util.sendNotification
 
 class AlarmReceiver: BroadcastReceiver() {
 

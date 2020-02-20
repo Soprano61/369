@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.taxi.android.nexi">
+          package="com.taxi.android.city">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -31,7 +31,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:name="androidx.multidex.MultiDexApplication" >
 
-        <activity android:name="com.taxi.android.nexi.MainActivity">
+        <activity android:name="com.taxi.android.city.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -40,19 +40,19 @@
         </activity>
 
         <receiver
-                android:name="com.taxi.android.nexi.receiver.AlarmReceiver"
+                android:name="com.taxi.android.city.receiver.AlarmReceiver"
                 android:enabled="true"
                 android:exported="false">
         </receiver>
         <receiver
-                android:name="com.taxi.android.nexi.receiver.SnoozeReceiver"
+                android:name="com.taxi.android.city.receiver.SnoozeReceiver"
                 android:enabled="true"
                 android:exported="false">
         </receiver>
 
         <!-- TODO: Step 3.0 uncomment to start the service  -->
         <service
-                android:name="com.taxi.android.nexi.MyFirebaseMessagingService"
+                android:name="com.taxi.android.city.MyFirebaseMessagingService"
                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

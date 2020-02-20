@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.taxi.android.nexi.receiver
+package com.taxi.android.city.receiver
 
 import android.app.AlarmManager
 import android.app.NotificationManager

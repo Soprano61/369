@@ -1,4 +1,4 @@
-package com.taxi.android.nexi.ui;
+package com.taxi.android.city.ui;
 
 /**
  * Created by Home on 6/10/2017.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package com.taxi.android.nexi.ui
+package com.taxi.android.city.ui
 
 import android.app.*
 import android.content.Context
@@ -24,9 +24,9 @@ import android.os.SystemClock
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
-import com.taxi.android.nexi.receiver.AlarmReceiver
-import com.taxi.android.nexi.R
-import com.taxi.android.nexi.util.cancelNotifications
+import com.taxi.android.city.receiver.AlarmReceiver
+import com.taxi.android.city.R
+import com.taxi.android.city.util.cancelNotifications
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -49,7 +49,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private val alarmManager = app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     private var prefs =
-        app.getSharedPreferences("com.taxi.android.nexi", Context.MODE_PRIVATE)
+        app.getSharedPreferences("com.taxi.android.city", Context.MODE_PRIVATE)
     private val notifyIntent = Intent(app, AlarmReceiver::class.java)
 
     private val _timeSelection = MutableLiveData<Int>()

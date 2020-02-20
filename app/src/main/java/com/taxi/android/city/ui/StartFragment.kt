@@ -1,4 +1,4 @@
-package com.taxi.android.nexi.ui
+package com.taxi.android.city.ui
 
 
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 
-import com.taxi.android.nexi.R
-import com.taxi.android.nexi.databinding.FragmentStartBinding
+import com.taxi.android.city.R
+import com.taxi.android.city.databinding.FragmentStartBinding
 
 
 class StartFragment : Fragment() {

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.taxi.android.nexi
+package com.taxi.android.city
 
 import android.app.NotificationManager
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.taxi.android.nexi.util.sendNotification
+import com.taxi.android.city.util.sendNotification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import io.reactivex.subjects.BehaviorSubject

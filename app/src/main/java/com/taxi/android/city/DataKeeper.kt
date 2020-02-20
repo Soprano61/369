@@ -1,4 +1,4 @@
-package com.taxi.android.nexi
+package com.taxi.android.city
 
 import android.annotation.TargetApi
 import android.content.Context
