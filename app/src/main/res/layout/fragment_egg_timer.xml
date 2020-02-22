@@ -159,7 +159,6 @@
             app:backgroundTint="@color/common_google_signin_btn_text_light_default"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="@+id/VUFaseAV"
-            app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="@+id/VUFaseAV"
             app:layout_constraintTop_toBottomOf="@+id/VUFaseAV" />
 
@@ -172,7 +171,6 @@
             app:backgroundTint="@color/common_google_signin_btn_text_light_default"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="@+id/adressAv"
-            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="@+id/adressAv"
             app:layout_constraintTop_toBottomOf="@+id/adressAv" />
 
@@ -186,7 +184,6 @@
             app:backgroundTint="@color/common_google_signin_btn_text_light_default"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="@+id/VUBackAv"
-            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="@+id/VUBackAv"
             app:layout_constraintTop_toBottomOf="@+id/VUBackAv" />
 

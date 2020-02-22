@@ -61,6 +61,8 @@ class EggTimerFragment : Fragment() {
     internal var Database_Path = "All_Image_Uploads_Database"
     var mStorageRef: StorageReference? = null
     val REQUEST_RUNTIME_PERMISSION = 1
+    var checkCound = 0
+
 
     val REQUEST_IMAGE_CAPTURE = 1
     var storageReference: StorageReference? = null
@@ -143,9 +145,11 @@ class EggTimerFragment : Fragment() {
 
 
 
-
+        binding.button2.isEnabled = false
+        binding.button2.isClickable = false
         binding.button2.setOnClickListener {
             activity?.finish()
+            Toast.makeText(context,"Ваши данные успешно отправлены на проверку с вами свяжуться",Toast.LENGTH_LONG).show()
         }
 
 
@@ -216,7 +220,30 @@ class EggTimerFragment : Fragment() {
 
                     Toast.makeText(context, "Фото успешно загружено!", Toast.LENGTH_SHORT).show()
                     val progress = (100.0 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
+                    when (Test) {
+                        0 -> {
+                            binding.passwordDownload.setImageResource(R.drawable.ic_verified)
+                            checkCound = 1
 
+                        }
+                        1 -> {
+                            binding.adressDownload.setImageResource(R.drawable.ic_verified)
+                            checkCound = 2
+
+                        }
+                        2 -> {
+                            binding.VUFaseDownload.setImageResource(R.drawable.ic_verified)
+                            checkCound = 3
+                        }
+                        3 -> {
+                            binding.VUBackDownload.setImageResource(R.drawable.ic_verified)
+                            checkCound = 4
+                        }
+                    }
+                    if (checkCound == 4){
+                        binding.button2.isEnabled = true
+                        binding.button2.isClickable = true
+                    }
                     binding.progressBar.visible = false
 
                 })
